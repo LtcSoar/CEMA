@@ -2,7 +2,7 @@
 
 # use epsilon greedy action selector
 action_selector: "epsilon_greedy"
-epsilon_start: 1.0
+epsilon_start: 1.0 #why using 1.0 as start? ans:1-epsilon for one and epsilon for all
 epsilon_finish: 0.05
 epsilon_anneal_time: 50000
 

@@ -17,11 +17,11 @@ from run import run
 SETTINGS['CAPTURE_MODE'] = "fd" # set to "no" if you want to see stdout/stderr in console
 logger = get_logger()
 
-ex = Experiment("pymarl")
-ex.logger = logger
+ex = Experiment("pymarl",save_git_info=False) #test if git is initialized here
+ex.logger = logger #already send the logger
 ex.captured_out_filter = apply_backspaces_and_linefeeds
 
-results_path = os.path.join(dirname(dirname(abspath(__file__))), "results")
+results_path = os.path.join(dirname(dirname(abspath(__file__))), "results") #在当前文件夹（src）的上层文件夹（两个dirname）中创建results文件夹，__file__是当前script的意思
 
 
 @ex.main
@@ -85,7 +85,7 @@ def _get_config_alg(params, arg_name, subfolder,map_name):
 
 def recursive_dict_update(d, u):
     for k, v in u.items():
-        if isinstance(v, collections.Mapping):
+        if isinstance(v, collections.Mapping):  #实现recursive的关键，就是判断这一部分的参数是不是还是参数集合
             d[k] = recursive_dict_update(d.get(k, {}), v)
         else:
             d[k] = v
@@ -131,12 +131,12 @@ if __name__ == '__main__':
     
 
     # now add all the config to sacred
-    ex.add_config(config_dict)
+    ex.add_config(config_dict)   #通过这种方式来给ex类内置的_config进行一个赋值
 
     # Save to disk by default for sacred
     logger.info("Saving to FileStorageObserver in results/sacred.")
     file_obs_path = os.path.join(results_path, "sacred")
-    ex.observers.append(FileStorageObserver.create(file_obs_path))
-
+    ex.observers.append(FileStorageObserver.create(file_obs_path)) #here we add the observer, when the exp starts
+    # print("start from here") # test for logging
     ex.run_commandline(params)
 

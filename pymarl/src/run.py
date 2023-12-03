@@ -28,7 +28,7 @@ def run(_run, _config, _log):
     # check args sanity
     _config = args_sanity_check(_config, _log)
 
-    args = SN(**_config)
+    args = SN(**_config)    #调用方式从_config到args
     args.device = "cuda" if args.use_cuda else "cpu"
     set_device = os.getenv('SET_DEVICE')
     if args.use_cuda and set_device != '-1':
